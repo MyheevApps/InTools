@@ -4,6 +4,7 @@
  */
 package intools;
 
+import com.google.errorprone.annotations.DoNotCall;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import javax.swing.JLabel;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -77,6 +79,36 @@ public class Main extends javax.swing.JFrame {
             saveToFile(mProfit);
         } else {
             profit.setText("0.0");
+        }
+    }
+    
+    private void calculateDifficultPercentage() {
+        int startPeriod = 1;
+        int endPeriod = Integer.parseInt(textFieldTerm.getText());
+        
+        int sum = 0;
+        int mySum = 0;
+        int sumInYear = Integer.parseInt(textFieldSum.getText());
+        double percent = Double.parseDouble(textFieldPercent.getText()) / 100;
+        
+        DefaultTableModel model = (DefaultTableModel) tableDifficultPercent.getModel();
+        
+        model.setRowCount(0);
+        
+        while (startPeriod <= endPeriod) {
+            sum += sumInYear;
+            mySum += sumInYear;
+            
+            System.out.print(startPeriod + " год, " + "вложено своих - " + mySum);
+            
+            sum += (int) (sum * percent);
+            System.out.print(", проценты - " + (sum - mySum) + ", ");
+            System.out.println("в сумме - " + sum);
+            
+            Object[] row = {startPeriod, mySum, sum - mySum, sum};
+            model.addRow(row);
+           
+            startPeriod++;
         }
     }
     
@@ -154,10 +186,13 @@ public class Main extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCalculateProfit = new javax.swing.JButton();
+        textFieldTerm = new javax.swing.JTextField();
+        textFieldSum = new javax.swing.JTextField();
+        textFieldPercent = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableDifficultPercent = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         planPanel = new javax.swing.JPanel();
@@ -460,17 +495,28 @@ public class Main extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Срок:");
+        jLabel4.setText("Срок (год):");
 
         jLabel6.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Сумма в год:");
+        jLabel6.setText("Сумма (год):");
 
         jLabel7.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Доходность (%):");
 
-        jButton1.setText("Рассчитать");
+        btnCalculateProfit.setText("Рассчитать");
+        btnCalculateProfit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalculateProfitActionPerformed(evt);
+            }
+        });
+
+        textFieldTerm.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+
+        textFieldSum.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+
+        textFieldPercent.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -479,23 +525,40 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jButton1))
-                .addContainerGap(397, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(174, 174, 174)
+                        .addComponent(textFieldTerm, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(163, 163, 163)
+                        .addComponent(textFieldSum))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnCalculateProfit)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(136, 136, 136)
+                        .addComponent(textFieldPercent)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(textFieldTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(textFieldSum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(textFieldPercent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCalculateProfit)
                 .addContainerGap())
         );
 
@@ -512,12 +575,9 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableDifficultPercent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Год", "Вложил", "Проценты", "Всего"
@@ -531,7 +591,7 @@ public class Main extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableDifficultPercent);
 
         jLabel8.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -555,15 +615,13 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
                         .addContainerGap())))
             .addGroup(calculatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(calculatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calculatePanelLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jScrollPane1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calculatePanelLayout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addGroup(calculatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(calculatePanelLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(118, 118, 118)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         calculatePanelLayout.setVerticalGroup(
@@ -578,8 +636,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
         );
 
         dynamicPanel.add(calculatePanel, "card3");
@@ -1150,6 +1207,10 @@ public class Main extends javax.swing.JFrame {
         calculateProfit();
     }//GEN-LAST:event_costKeyReleased
 
+    private void btnCalculateProfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateProfitActionPerformed
+        calculateDifficultPercentage();
+    }//GEN-LAST:event_btnCalculateProfitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1189,6 +1250,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appName;
     private javax.swing.JLabel btnCalculate;
+    private javax.swing.JButton btnCalculateProfit;
     private javax.swing.JLabel btnPlan;
     private javax.swing.JLabel btnPortfolio;
     private javax.swing.JPanel calculatePanel;
@@ -1196,7 +1258,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField dividend;
     private javax.swing.JPanel dynamicPanel;
     private javax.swing.JTextField invested;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1241,7 +1302,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane23;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable13;
     private javax.swing.JTable jTable14;
     private javax.swing.JTable jTable15;
@@ -1259,5 +1319,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel planPanel;
     private javax.swing.JPanel portfolioPanel;
     private javax.swing.JLabel profit;
+    private javax.swing.JTable tableDifficultPercent;
+    private javax.swing.JTextField textFieldPercent;
+    private javax.swing.JTextField textFieldSum;
+    private javax.swing.JTextField textFieldTerm;
     // End of variables declaration//GEN-END:variables
 }
