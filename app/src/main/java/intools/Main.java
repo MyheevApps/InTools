@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Mikheev Maxim
@@ -84,12 +83,12 @@ public class Main extends javax.swing.JFrame {
     
     private void calculateDifficultPercentage() {
         int startPeriod = 1;
-        int endPeriod = Integer.parseInt(textFieldTerm.getText());
+        int endPeriod = (int) termSpinner.getValue();
         
         int sum = 0;
         int mySum = 0;
         int sumInYear = Integer.parseInt(textFieldSum.getText());
-        double percent = Double.parseDouble(textFieldPercent.getText()) / 100;
+        double percent = (double) (percentSpinner.getValue()) / 100;
         
         DefaultTableModel model = (DefaultTableModel) tableDifficultPercent.getModel();
         
@@ -186,9 +185,9 @@ public class Main extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         btnCalculateProfit = new javax.swing.JButton();
-        textFieldTerm = new javax.swing.JTextField();
         textFieldSum = new javax.swing.JTextField();
-        textFieldPercent = new javax.swing.JTextField();
+        termSpinner = new javax.swing.JSpinner();
+        percentSpinner = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableDifficultPercent = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
@@ -253,7 +252,7 @@ public class Main extends javax.swing.JFrame {
         appName.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         btnPortfolio.setBackground(new java.awt.Color(43, 51, 90));
-        btnPortfolio.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
+        btnPortfolio.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnPortfolio.setForeground(new java.awt.Color(255, 255, 255));
         btnPortfolio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnPortfolio.setText("Портфель");
@@ -265,7 +264,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnCalculate.setBackground(new java.awt.Color(31, 36, 65));
-        btnCalculate.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
+        btnCalculate.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnCalculate.setForeground(new java.awt.Color(255, 255, 255));
         btnCalculate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCalculate.setText("Рассчеты");
@@ -277,7 +276,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnPlan.setBackground(new java.awt.Color(31, 36, 65));
-        btnPlan.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
+        btnPlan.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnPlan.setForeground(new java.awt.Color(255, 255, 255));
         btnPlan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnPlan.setText("План");
@@ -324,23 +323,23 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(75, 124, 253));
 
         jLabel1.setBackground(new java.awt.Color(75, 124, 253));
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Вложил:");
         jLabel1.setOpaque(true);
 
         jLabel2.setBackground(new java.awt.Color(75, 124, 253));
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Дивиденды:");
 
         jLabel3.setBackground(new java.awt.Color(75, 124, 253));
-        jLabel3.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Стоимость портфеля:");
 
         jLabel5.setBackground(new java.awt.Color(75, 124, 253));
-        jLabel5.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("ПРИБЫЛЬ:");
 
@@ -361,10 +360,11 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 1, Short.MAX_VALUE)
         );
 
-        profit.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
+        profit.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         profit.setForeground(new java.awt.Color(255, 255, 255));
         profit.setText("0.0");
 
+        invested.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         invested.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         invested.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -372,8 +372,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        dividend.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         dividend.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
+        cost.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         cost.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         cost.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -429,14 +431,16 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jLabel10.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("ПОРТФЕЛЬ");
 
         jLabel11.setBackground(new java.awt.Color(143, 148, 179));
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(143, 148, 179));
         jLabel11.setText("В этом разделе находится общая информиция о вашем портфеле");
 
+        jTable3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -490,16 +494,17 @@ public class Main extends javax.swing.JFrame {
         calculatePanel.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel3.setBackground(new java.awt.Color(75, 124, 253));
+        jPanel3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Срок (год):");
 
-        jLabel6.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Сумма (год):");
 
-        jLabel7.setFont(new java.awt.Font("Liberation Sans", 2, 13)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Доходность (%):");
 
@@ -511,11 +516,16 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        textFieldTerm.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-
+        textFieldSum.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         textFieldSum.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldSum.setMinimumSize(new java.awt.Dimension(64, 22));
+        textFieldSum.setPreferredSize(new java.awt.Dimension(64, 22));
 
-        textFieldPercent.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        termSpinner.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        termSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+
+        percentSpinner.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        percentSpinner.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, 100.0d, 1.0d));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -524,21 +534,15 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(174, 174, 174)
-                        .addComponent(textFieldTerm, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(163, 163, 163)
-                        .addComponent(textFieldSum))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnCalculateProfit)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(136, 136, 136)
-                        .addComponent(textFieldPercent)))
+                    .addComponent(jLabel6)
+                    .addComponent(btnCalculateProfit)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel4))
+                .addGap(136, 136, 136)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(termSpinner)
+                    .addComponent(textFieldSum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(percentSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -547,7 +551,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(textFieldTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(termSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -555,12 +559,13 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(textFieldPercent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(percentSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCalculateProfit)
                 .addContainerGap())
         );
 
+        tableDifficultPercent.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         tableDifficultPercent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -579,11 +584,12 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableDifficultPercent);
 
-        jLabel8.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("РАССЧЕТЫ");
 
         jLabel12.setBackground(new java.awt.Color(143, 148, 179));
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(143, 148, 179));
         jLabel12.setText("В разделе \"Рассчеты\" Вы можете рассчитать свою доходность за указанный Вами период");
 
@@ -600,14 +606,14 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calculatePanelLayout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
                         .addContainerGap())))
-            .addGroup(calculatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calculatePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(calculatePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         calculatePanelLayout.setVerticalGroup(
             calculatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -619,17 +625,19 @@ public class Main extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE))
         );
 
         dynamicPanel.add(calculatePanel, "card3");
 
         planPanel.setBackground(new java.awt.Color(43, 51, 90));
 
+        jTabbedPane2.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTabbedPane2.setMaximumSize(new java.awt.Dimension(866, 32767));
         jTabbedPane2.setMinimumSize(new java.awt.Dimension(866, 361));
         jTabbedPane2.setPreferredSize(new java.awt.Dimension(866, 379));
 
+        jTable2.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -670,6 +678,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Январь", jPanel15);
 
+        jTable13.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable13.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -710,6 +719,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Февраль", jPanel16);
 
+        jTable14.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable14.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -750,6 +760,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Март", jPanel17);
 
+        jTable15.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable15.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -790,6 +801,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Апрель", jPanel18);
 
+        jTable16.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable16.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -830,6 +842,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Май", jPanel19);
 
+        jTable17.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable17.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -870,6 +883,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Июнь", jPanel20);
 
+        jTable18.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable18.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -910,6 +924,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Июль", jPanel21);
 
+        jTable19.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable19.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -950,6 +965,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Август", jPanel22);
 
+        jTable20.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable20.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -990,6 +1006,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Сентябрь", jPanel23);
 
+        jTable21.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable21.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1030,6 +1047,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Октябрь", jPanel24);
 
+        jTable22.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable22.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1070,6 +1088,7 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Ноябрь", jPanel25);
 
+        jTable23.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jTable23.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1110,11 +1129,12 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Декабрь", jPanel26);
 
-        jLabel9.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("ПЛАНИРОВАНИЕ");
 
         jLabel13.setBackground(new java.awt.Color(143, 148, 179));
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(143, 148, 179));
         jLabel13.setText("В этом разделе Вы можете запланировать покупку акций");
 
@@ -1141,7 +1161,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1191,12 +1211,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_costKeyReleased
 
     private void btnCalculateProfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateProfitActionPerformed
-        if (textFieldTerm.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Поле \"Срок\" не заполнено", "Внимание", JOptionPane.INFORMATION_MESSAGE);
-        } else if (textFieldSum.getText().isEmpty()) {
+        if (textFieldSum.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Поле \"Сумма\" не заполнено", "Внимание", JOptionPane.INFORMATION_MESSAGE);
-        } else if (textFieldPercent.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Поле \"Доходность\" не заполнено", "Внимание", JOptionPane.INFORMATION_MESSAGE);
         } else {
             calculateDifficultPercentage();
         }
@@ -1306,12 +1322,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTable23;
     private javax.swing.JTable jTable3;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JSpinner percentSpinner;
     private javax.swing.JPanel planPanel;
     private javax.swing.JPanel portfolioPanel;
     private javax.swing.JLabel profit;
     private javax.swing.JTable tableDifficultPercent;
-    private javax.swing.JTextField textFieldPercent;
+    private javax.swing.JSpinner termSpinner;
     private javax.swing.JTextField textFieldSum;
-    private javax.swing.JTextField textFieldTerm;
     // End of variables declaration//GEN-END:variables
 }
