@@ -66,7 +66,7 @@ public class Main extends javax.swing.JFrame {
                 
                 double percentage = 0.0;
                 if (numCost > numInvested) {
-                    percentage = (sum / Double.parseDouble(strCost)) * 100;
+                    percentage = (sum / numCost) * 100;
                 }
                 
                 String textSum = String.format("%s (%s)", 
