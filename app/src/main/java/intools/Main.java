@@ -94,29 +94,20 @@ public class Main extends javax.swing.JFrame {
     private void calculateDifficultPercentage() {
         int startPeriod = 1;
         int endPeriod = (int) termSpinner.getValue();
-        
         int sum = 0;
         int mySum = 0;
         int sumInYear = Integer.parseInt(textFieldSum.getText());
         double percent = (double) (percentSpinner.getValue()) / 100;
         
         DefaultTableModel model = (DefaultTableModel) tableDifficultPercent.getModel();
-        
         model.setRowCount(0);
         
         while (startPeriod <= endPeriod) {
             sum += sumInYear;
             mySum += sumInYear;
-            
-            System.out.print(startPeriod + " год, " + "вложено своих - " + mySum);
-            
             sum += (int) (sum * percent);
-            System.out.print(", проценты - " + (sum - mySum) + ", ");
-            System.out.println("в сумме - " + sum);
-            
             Object[] row = {startPeriod, mySum, sum - mySum, sum};
             model.addRow(row);
-           
             startPeriod++;
         }
     }
