@@ -5,17 +5,15 @@
 package intools;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.Dividend;
+import utils.Serialization;
 
 /**
  *
@@ -29,10 +27,11 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         fillProfit();
+        fillDividends();
     }
     
     private void fillProfit() {
-        HashMap<String, String> result = getProfitFromFile();
+        HashMap<String, String> result = Serialization.getProfitFromFile();
         
         if (result != null) {
             if (result.containsKey("invested")) {
@@ -49,6 +48,23 @@ public class Main extends javax.swing.JFrame {
             
             if (result.containsKey("sum")) {
                 profit.setText(result.get("sum"));
+            }
+        }
+    }
+    
+    private void fillDividends() {
+        List<Dividend> dataList = Serialization.getDividend();     
+        DefaultTableModel model = (DefaultTableModel) tableDividends.getModel(); 
+        if (dataList != null) {
+            for (Dividend dividends : dataList) { 
+                try {
+                    model.addRow(new Object[]{dividends.getCompany(),
+                        dividends.getSum(),
+                        dividends.getClosePeriod(),
+                        dividends.getPaymentDate()});
+                } catch (Exception e) {
+
+                }
             }
         }
     }
@@ -85,7 +101,7 @@ public class Main extends javax.swing.JFrame {
             mProfit.put("cost", strCost);
             mProfit.put("sum", profit.getText());
             
-            saveToFile(mProfit);
+            Serialization.saveToFile(mProfit);
         } else {
             profit.setText("0.0");
         }
@@ -110,36 +126,6 @@ public class Main extends javax.swing.JFrame {
             model.addRow(row);
             startPeriod++;
         }
-    }
-    
-    private static void saveToFile(HashMap<String, String> profit) {
-        try {
-            FileOutputStream file = new FileOutputStream(new File("profit.txt"));
-            ObjectOutputStream obj = new ObjectOutputStream(file);
-            obj.writeObject(profit);
-            obj.close();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private static HashMap<String, String> getProfitFromFile() {
-        HashMap<String, String> data = null;
-                
-        try {
-            FileInputStream file = new FileInputStream(new File("profit.txt"));
-            ObjectInputStream obj = new ObjectInputStream(file);
-            data = (HashMap<String, String>) obj.readObject();
-            obj.close();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        
-        return data != null ? data: null;
     }
     
     private void setColor(JLabel label) {
@@ -179,7 +165,19 @@ public class Main extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tableDividends = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        textFieldCompany = new javax.swing.JTextField();
+        textFieldDividend = new javax.swing.JTextField();
+        textFieldEndDate = new javax.swing.JTextField();
+        textFieldDate = new javax.swing.JTextField();
         calculatePanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -417,7 +415,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -429,7 +427,7 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cost, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(cost)
                             .addComponent(dividend, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(invested, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
@@ -455,7 +453,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(profit))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -467,19 +465,129 @@ public class Main extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(143, 148, 179));
         jLabel11.setText("В этом разделе находится общая информиция о вашем портфеле");
 
-        jTable3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tableDividends.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        tableDividends.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Компания", "Размер выплаты", "За период", "Дата отсечки", "Дата выплаты"
+                "Компания", "Размер выплаты", "Дата отсечки", "Дата выплаты"
             }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tableDividends);
+
+        jPanel11.setBackground(new java.awt.Color(75, 124, 253));
+
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setText("Компания:");
+
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setText("Размер:");
+
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setText("Отсечка:");
+
+        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel33.setText("Дата выплаты:");
+        jLabel33.setToolTipText("");
+
+        btnAdd.setText("Добавить");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Удалить");
+
+        jButton3.setText("Изменить");
+
+        textFieldCompany.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldCompany.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldCompany.setMaximumSize(new java.awt.Dimension(64, 16));
+        textFieldCompany.setPreferredSize(new java.awt.Dimension(66, 16));
+
+        textFieldDividend.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldDividend.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldDividend.setMaximumSize(new java.awt.Dimension(64, 16));
+        textFieldDividend.setPreferredSize(new java.awt.Dimension(66, 16));
+
+        textFieldEndDate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldEndDate.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldEndDate.setMaximumSize(new java.awt.Dimension(64, 16));
+        textFieldEndDate.setPreferredSize(new java.awt.Dimension(66, 16));
+
+        textFieldDate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldDate.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldDate.setMaximumSize(new java.awt.Dimension(64, 16));
+        textFieldDate.setPreferredSize(new java.awt.Dimension(66, 16));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel29))
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldDividend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textFieldCompany, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(btnAdd)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel32))
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textFieldDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(textFieldCompany, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(textFieldDividend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(textFieldEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel33)
+                    .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout portfolioPanelLayout = new javax.swing.GroupLayout(portfolioPanel);
         portfolioPanel.setLayout(portfolioPanelLayout);
@@ -490,15 +598,17 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(portfolioPanelLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(portfolioPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(portfolioPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         portfolioPanelLayout.setVerticalGroup(
@@ -510,9 +620,12 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel11)
                 .addGap(57, 57, 57)
                 .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(portfolioPanelLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)))
         );
 
         dynamicPanel.add(portfolioPanel, "card4");
@@ -832,7 +945,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, calculatePanelLayout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
                         .addContainerGap())))
             .addGroup(calculatePanelLayout.createSequentialGroup()
                 .addContainerGap()
@@ -897,7 +1010,7 @@ public class Main extends javax.swing.JFrame {
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -938,7 +1051,7 @@ public class Main extends javax.swing.JFrame {
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
@@ -979,7 +1092,7 @@ public class Main extends javax.swing.JFrame {
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -1020,7 +1133,7 @@ public class Main extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel18Layout.setVerticalGroup(
@@ -1061,7 +1174,7 @@ public class Main extends javax.swing.JFrame {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
@@ -1102,7 +1215,7 @@ public class Main extends javax.swing.JFrame {
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel20Layout.setVerticalGroup(
@@ -1143,7 +1256,7 @@ public class Main extends javax.swing.JFrame {
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel21Layout.setVerticalGroup(
@@ -1184,7 +1297,7 @@ public class Main extends javax.swing.JFrame {
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel22Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel22Layout.setVerticalGroup(
@@ -1225,7 +1338,7 @@ public class Main extends javax.swing.JFrame {
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
@@ -1266,7 +1379,7 @@ public class Main extends javax.swing.JFrame {
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel24Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane21, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane21, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel24Layout.setVerticalGroup(
@@ -1307,7 +1420,7 @@ public class Main extends javax.swing.JFrame {
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel25Layout.setVerticalGroup(
@@ -1348,7 +1461,7 @@ public class Main extends javax.swing.JFrame {
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel26Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane23, javax.swing.GroupLayout.DEFAULT_SIZE, 854, Short.MAX_VALUE)
+                .addComponent(jScrollPane23, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel26Layout.setVerticalGroup(
@@ -1434,14 +1547,6 @@ public class Main extends javax.swing.JFrame {
         planPanel.setVisible(true);
     }//GEN-LAST:event_btnPlanMousePressed
 
-    private void investedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_investedKeyReleased
-        calculateProfit();
-    }//GEN-LAST:event_investedKeyReleased
-
-    private void costKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_costKeyReleased
-        calculateProfit();
-    }//GEN-LAST:event_costKeyReleased
-
     private void btnCalculateProfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateProfitActionPerformed
         if (textFieldSum.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Поле \"Сумма\" не заполнено", "Внимание", JOptionPane.INFORMATION_MESSAGE);
@@ -1449,6 +1554,31 @@ public class Main extends javax.swing.JFrame {
             calculateDifficultPercentage();
         }
     }//GEN-LAST:event_btnCalculateProfitActionPerformed
+
+    private void costKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_costKeyReleased
+        calculateProfit();
+    }//GEN-LAST:event_costKeyReleased
+
+    private void investedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_investedKeyReleased
+        calculateProfit();
+    }//GEN-LAST:event_investedKeyReleased
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableDividends.getModel();
+        model.addRow(new Object[]{textFieldCompany.getText(), textFieldDividend.getText(),
+            textFieldEndDate.getText(), textFieldDate.getText()});
+        
+        List<Dividend> data = new ArrayList<>();
+        
+        for (int i = 0; i < tableDividends.getRowCount(); i++) {
+            data.add(new Dividend(tableDividends.getValueAt(i, 0).toString(),
+                    tableDividends.getValueAt(i, 1).toString(), 
+                    tableDividends.getValueAt(i, 2).toString(), 
+                    tableDividends.getValueAt(i, 3).toString()));
+        }
+        
+        Serialization.saveToFile(data);
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1488,6 +1618,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appName;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JLabel btnCalculate;
     private javax.swing.JButton btnCalculateProfit;
     private javax.swing.JLabel btnPlan;
@@ -1497,6 +1628,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField dividend;
     private javax.swing.JPanel dynamicPanel;
     private javax.swing.JTextField invested;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1513,7 +1646,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1521,6 +1658,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -1566,7 +1704,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTable21;
     private javax.swing.JTable jTable22;
     private javax.swing.JTable jTable23;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1585,7 +1722,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel portfolioPanel;
     private javax.swing.JLabel profit;
     private javax.swing.JTable tableDifficultPercent;
+    private javax.swing.JTable tableDividends;
     private javax.swing.JSpinner termSpinner;
+    private javax.swing.JTextField textFieldCompany;
+    private javax.swing.JTextField textFieldDate;
+    private javax.swing.JTextField textFieldDividend;
+    private javax.swing.JTextField textFieldEndDate;
     private javax.swing.JTextField textFieldSum;
     // End of variables declaration//GEN-END:variables
 }
