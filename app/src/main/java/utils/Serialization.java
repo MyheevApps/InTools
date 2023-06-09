@@ -32,9 +32,9 @@ public class Serialization {
         }
     }
     
-    public static void saveToFile(List data){
+    public static void saveToFile(List data, String path){
         try {
-            FileOutputStream file = new FileOutputStream(new File("dvdnd.txt"));
+            FileOutputStream file = new FileOutputStream(new File(path));
             ObjectOutputStream obj = new ObjectOutputStream(file);
             obj.writeObject(data);
             obj.close();
@@ -64,11 +64,11 @@ public class Serialization {
         return data != null ? data: null;
     }
     
-    public static List getDividend() {
+    public static List getDataTable(String path) {
         List data = null;
 
         try {
-            FileInputStream file = new FileInputStream(new File("dvdnd.txt"));
+            FileInputStream file = new FileInputStream(new File(path));
             ObjectInputStream obj = new ObjectInputStream(file);
             data = (List) obj.readObject();
             obj.close();
