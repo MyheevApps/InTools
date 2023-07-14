@@ -698,7 +698,7 @@ public class Main extends javax.swing.JFrame {
         textFieldSum.setPreferredSize(new java.awt.Dimension(64, 22));
 
         termSpinner.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        termSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+        termSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
 
         percentSpinner.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         percentSpinner.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, 100.0d, 1.0d));
