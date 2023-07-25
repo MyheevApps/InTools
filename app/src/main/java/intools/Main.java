@@ -91,8 +91,19 @@ public class Main extends javax.swing.JFrame {
     
     private void calculateProfit() {
         String strInvested = invested.getText().trim();
+        if (strInvested.indexOf(',') > 0) {
+            strInvested = strInvested.replace(',', '.');
+        }
+        
         String strDividend = dividend.getText().trim();
+        if (strDividend.indexOf(',') > 0) {
+            strDividend = strDividend.replace(',', '.');
+        }
+        
         String strCost = cost.getText().trim();
+        if (strCost.indexOf(',') > 0) {
+            strCost = strCost.replace(',', '.');
+        }
         
         if (!strInvested.isEmpty() & !strCost.isEmpty()) {
             try {
