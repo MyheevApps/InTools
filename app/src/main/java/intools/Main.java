@@ -348,7 +348,7 @@ public class Main extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(appName, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+            .addComponent(appName, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
             .addComponent(btnCalculate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnPortfolio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnPlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -525,6 +525,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel11.setBackground(new java.awt.Color(247, 82, 99));
 
+        btnAdd.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnAdd.setText("Добавить");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -532,6 +533,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnDelete.setText("Удалить");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,26 +541,31 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jButton3.setText("Изменить");
 
         jPanel4.setBackground(new java.awt.Color(247, 82, 99));
         jPanel4.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
+        jLabel29.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel29.setText("Компания");
         jPanel4.add(jLabel29);
 
+        jLabel30.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel30.setText("Размер");
         jPanel4.add(jLabel30);
 
+        jLabel32.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
         jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel32.setText("Отсечка");
         jPanel4.add(jLabel32);
 
+        jLabel33.setFont(new java.awt.Font("Arial", 2, 13)); // NOI18N
         jLabel33.setForeground(new java.awt.Color(255, 255, 255));
         jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel33.setText("Дата выплаты");
@@ -611,7 +618,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(jButton3)
@@ -697,6 +704,7 @@ public class Main extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Доходность (%):");
 
+        btnCalculateProfit.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnCalculateProfit.setText("Рассчитать");
         btnCalculateProfit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCalculateProfit.addActionListener(new java.awt.event.ActionListener() {
@@ -804,14 +812,17 @@ public class Main extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(75, 124, 253));
 
         jLabel14.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Вложил:");
 
         jLabel17.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel17.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Проценты:");
 
         jLabel18.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Всего:");
 
@@ -907,7 +918,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(calculatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -924,6 +935,7 @@ public class Main extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(143, 148, 179));
         jLabel13.setText("В этом разделе Вы можете запланировать покупку акций");
 
+        tablePlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         tablePlan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -946,21 +958,25 @@ public class Main extends javax.swing.JFrame {
         jPanel10.setForeground(new java.awt.Color(75, 124, 253));
         jPanel10.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
 
+        jLabel27.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel27.setText("Дата покупки");
         jPanel10.add(jLabel27);
 
+        jLabel28.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("Сектор");
         jPanel10.add(jLabel28);
 
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Компания");
         jPanel10.add(jLabel16);
 
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Сумма");
@@ -970,6 +986,7 @@ public class Main extends javax.swing.JFrame {
         jPanel10.add(textFieldCompanyPlan);
         jPanel10.add(textFieldSumPlan);
 
+        btnAddPlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnAddPlan.setText("Добавить");
         btnAddPlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -977,8 +994,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btnEditPlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnEditPlan.setText("Изменить");
 
+        btnDeletePlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnDeletePlan.setText("Удалить");
         btnDeletePlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1038,7 +1057,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
