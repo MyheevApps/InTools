@@ -238,7 +238,7 @@ public class Main extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -521,6 +521,11 @@ public class Main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableDividends.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDividendsMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tableDividends);
 
         jPanel11.setBackground(new java.awt.Color(247, 82, 99));
@@ -541,8 +546,13 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        jButton3.setText("Изменить");
+        btnUpdate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btnUpdate.setText("Изменить");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(247, 82, 99));
         jPanel4.setLayout(new java.awt.GridLayout(2, 3, 4, 0));
@@ -573,24 +583,28 @@ public class Main extends javax.swing.JFrame {
         jPanel4.add(jLabel33);
 
         textFieldCompany.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldCompany.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textFieldCompany.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldCompany.setMaximumSize(new java.awt.Dimension(64, 16));
         textFieldCompany.setPreferredSize(new java.awt.Dimension(66, 16));
         jPanel4.add(textFieldCompany);
 
         textFieldDividend.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldDividend.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textFieldDividend.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldDividend.setMaximumSize(new java.awt.Dimension(64, 16));
         textFieldDividend.setPreferredSize(new java.awt.Dimension(66, 16));
         jPanel4.add(textFieldDividend);
 
         textFieldEndDate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldEndDate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textFieldEndDate.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldEndDate.setMaximumSize(new java.awt.Dimension(64, 16));
         textFieldEndDate.setPreferredSize(new java.awt.Dimension(66, 16));
         jPanel4.add(textFieldEndDate);
 
         textFieldDate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldDate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         textFieldDate.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldDate.setMaximumSize(new java.awt.Dimension(64, 16));
         textFieldDate.setPreferredSize(new java.awt.Dimension(66, 16));
@@ -604,7 +618,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btnUpdate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -621,7 +635,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
-                    .addComponent(jButton3)
+                    .addComponent(btnUpdate)
                     .addComponent(btnDelete))
                 .addContainerGap())
         );
@@ -1152,6 +1166,31 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeletePlanActionPerformed
 
+    private void tableDividendsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDividendsMouseClicked
+        DefaultTableModel model = (DefaultTableModel) tableDividends.getModel();
+        int selectedRow = tableDividends.getSelectedRow();
+        
+        textFieldCompany.setText(model.getValueAt(selectedRow, 0).toString());
+        textFieldDividend.setText(model.getValueAt(selectedRow, 1).toString());
+        textFieldEndDate.setText(model.getValueAt(selectedRow, 2).toString());
+        textFieldDate.setText(model.getValueAt(selectedRow, 3).toString());
+    }//GEN-LAST:event_tableDividendsMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int i = tableDividends.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tableDividends.getModel();
+        
+        if (i >= 0) {
+            model.setValueAt(textFieldCompany.getText().toString(), i, 0);
+            model.setValueAt(textFieldDividend.getText().toString(), i, 1);
+            model.setValueAt(textFieldEndDate.getText().toString(), i, 2);
+            model.setValueAt(textFieldDate.getText().toString(), i, 3);
+            saveStateDividendTable();
+        } else {
+            JOptionPane.showMessageDialog(this,"Выберите элемент таблицы для изменения.");
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1199,13 +1238,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnEditPlan;
     private javax.swing.JLabel btnPlan;
     private javax.swing.JLabel btnPortfolio;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel calculatePanel;
     private javax.swing.JPanel chartPanel;
     private javax.swing.JTextField cost;
     private javax.swing.JTextField dividend;
     private javax.swing.JPanel dynamicPanel;
     private javax.swing.JTextField invested;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
