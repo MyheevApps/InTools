@@ -5,6 +5,7 @@
 package intools;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.Dividend;
 import models.Plan;
@@ -204,6 +206,26 @@ public class Main extends javax.swing.JFrame {
             return false;
         }
     }
+    
+    private void checkInput(KeyEvent event, JTextField textField) {
+        if(!Character.isLetter(event.getKeyChar())){
+            if(event.getKeyChar() >= '0' & event.getKeyChar() <= '9') {
+                textField.setEditable(true);
+            }
+            else if (event.getKeyChar() >= ' ') {
+                textField.setEditable(true);
+            }
+            else if (event.getKeyChar() >= '.') {
+                textField.setEditable(true);}
+            else if (event.getKeyChar() >= '\b') {
+                textField.setEditable(true);
+            } else {
+                textField.setEditable(false);
+            }
+        } else {
+            textField.setEditable(false);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -268,9 +290,10 @@ public class Main extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        textFieldSum1 = new javax.swing.JTextField();
-        textFieldSum2 = new javax.swing.JTextField();
-        textFieldSum3 = new javax.swing.JTextField();
+        textField_income = new javax.swing.JTextField();
+        textFieldPercent = new javax.swing.JTextField();
+        textFieldTotal = new javax.swing.JTextField();
+        btnAddCurrentResult = new javax.swing.JButton();
         planPanel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -424,6 +447,9 @@ public class Main extends javax.swing.JFrame {
         invested.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         invested.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         invested.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                investedKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 investedKeyReleased(evt);
             }
@@ -431,10 +457,18 @@ public class Main extends javax.swing.JFrame {
 
         dividend.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         dividend.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        dividend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                dividendKeyPressed(evt);
+            }
+        });
 
         cost.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         cost.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         cost.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                costKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 costKeyReleased(evt);
             }
@@ -594,6 +628,11 @@ public class Main extends javax.swing.JFrame {
         textFieldDividend.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldDividend.setMaximumSize(new java.awt.Dimension(64, 16));
         textFieldDividend.setPreferredSize(new java.awt.Dimension(66, 16));
+        textFieldDividend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldDividendKeyPressed(evt);
+            }
+        });
         jPanel4.add(textFieldDividend);
 
         textFieldEndDate.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
@@ -720,7 +759,7 @@ public class Main extends javax.swing.JFrame {
 
         btnCalculateProfit.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnCalculateProfit.setText("Рассчитать");
-        btnCalculateProfit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCalculateProfit.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
         btnCalculateProfit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalculateProfitActionPerformed(evt);
@@ -731,6 +770,11 @@ public class Main extends javax.swing.JFrame {
         textFieldSum.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         textFieldSum.setMinimumSize(new java.awt.Dimension(64, 22));
         textFieldSum.setPreferredSize(new java.awt.Dimension(64, 22));
+        textFieldSum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldSumKeyPressed(evt);
+            }
+        });
 
         termSpinner.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         termSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 30, 1));
@@ -753,7 +797,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(termSpinner)
                     .addComponent(textFieldSum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(percentSpinner))
+                    .addComponent(percentSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -814,7 +858,7 @@ public class Main extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -840,20 +884,44 @@ public class Main extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Всего:");
 
-        textFieldSum1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        textFieldSum1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        textFieldSum1.setMinimumSize(new java.awt.Dimension(64, 22));
-        textFieldSum1.setPreferredSize(new java.awt.Dimension(64, 22));
+        textField_income.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textField_income.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textField_income.setMinimumSize(new java.awt.Dimension(64, 22));
+        textField_income.setPreferredSize(new java.awt.Dimension(64, 22));
+        textField_income.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textField_incomeKeyPressed(evt);
+            }
+        });
 
-        textFieldSum2.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        textFieldSum2.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        textFieldSum2.setMinimumSize(new java.awt.Dimension(64, 22));
-        textFieldSum2.setPreferredSize(new java.awt.Dimension(64, 22));
+        textFieldPercent.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldPercent.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldPercent.setMinimumSize(new java.awt.Dimension(64, 22));
+        textFieldPercent.setPreferredSize(new java.awt.Dimension(64, 22));
+        textFieldPercent.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldPercentKeyPressed(evt);
+            }
+        });
 
-        textFieldSum3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        textFieldSum3.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        textFieldSum3.setMinimumSize(new java.awt.Dimension(64, 22));
-        textFieldSum3.setPreferredSize(new java.awt.Dimension(64, 22));
+        textFieldTotal.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        textFieldTotal.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        textFieldTotal.setMinimumSize(new java.awt.Dimension(64, 22));
+        textFieldTotal.setPreferredSize(new java.awt.Dimension(64, 22));
+        textFieldTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldTotalKeyPressed(evt);
+            }
+        });
+
+        btnAddCurrentResult.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btnAddCurrentResult.setText("Рассчитать");
+        btnAddCurrentResult.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
+        btnAddCurrentResult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCurrentResultActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -865,15 +933,18 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addGap(90, 90, 90)
-                        .addComponent(textFieldSum1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
+                        .addComponent(textFieldTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addGap(67, 67, 67)
-                        .addComponent(textFieldSum3, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
+                        .addComponent(textFieldPercent, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(79, 79, 79)
-                        .addComponent(textFieldSum2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)))
+                        .addComponent(textField_income, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(btnAddCurrentResult)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -882,16 +953,18 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(textFieldSum2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textField_income, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(textFieldSum3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textFieldPercent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(textFieldSum1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(textFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddCurrentResult)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout calculatePanelLayout = new javax.swing.GroupLayout(calculatePanel);
@@ -932,7 +1005,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(calculatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -998,6 +1071,12 @@ public class Main extends javax.swing.JFrame {
         jPanel10.add(textFieldDateBuy);
         jPanel10.add(textFieldSector);
         jPanel10.add(textFieldCompanyPlan);
+
+        textFieldSumPlan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textFieldSumPlanKeyPressed(evt);
+            }
+        });
         jPanel10.add(textFieldSumPlan);
 
         btnAddPlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
@@ -1191,6 +1270,52 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void btnAddCurrentResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCurrentResultActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableActualStory.getModel();
+        int size = tableActualStory.getRowCount();
+ 
+        model.addRow(new Object[]{++size, 
+            Integer.valueOf(textField_income.getText()), 
+            Integer.valueOf(textFieldPercent.getText()),
+            Integer.valueOf(textFieldTotal.getText())});
+    }//GEN-LAST:event_btnAddCurrentResultActionPerformed
+
+    private void textField_incomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_incomeKeyPressed
+        checkInput(evt, textField_income);
+    }//GEN-LAST:event_textField_incomeKeyPressed
+
+    private void investedKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_investedKeyPressed
+        checkInput(evt, invested);
+    }//GEN-LAST:event_investedKeyPressed
+
+    private void dividendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dividendKeyPressed
+        checkInput(evt, dividend);
+    }//GEN-LAST:event_dividendKeyPressed
+
+    private void costKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_costKeyPressed
+        checkInput(evt, cost);
+    }//GEN-LAST:event_costKeyPressed
+
+    private void textFieldDividendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDividendKeyPressed
+        checkInput(evt, textFieldDividend);
+    }//GEN-LAST:event_textFieldDividendKeyPressed
+
+    private void textFieldTotalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldTotalKeyPressed
+        checkInput(evt, textFieldTotal);
+    }//GEN-LAST:event_textFieldTotalKeyPressed
+
+    private void textFieldPercentKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldPercentKeyPressed
+        checkInput(evt, textFieldPercent);
+    }//GEN-LAST:event_textFieldPercentKeyPressed
+
+    private void textFieldSumKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSumKeyPressed
+        checkInput(evt, textFieldSum);
+    }//GEN-LAST:event_textFieldSumKeyPressed
+
+    private void textFieldSumPlanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSumPlanKeyPressed
+        checkInput(evt, textFieldSumPlan);
+    }//GEN-LAST:event_textFieldSumPlanKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -1230,6 +1355,7 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel appName;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddCurrentResult;
     private javax.swing.JButton btnAddPlan;
     private javax.swing.JLabel btnCalculate;
     private javax.swing.JButton btnCalculateProfit;
@@ -1297,11 +1423,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldDateBuy;
     private javax.swing.JTextField textFieldDividend;
     private javax.swing.JTextField textFieldEndDate;
+    private javax.swing.JTextField textFieldPercent;
     private javax.swing.JTextField textFieldSector;
     private javax.swing.JTextField textFieldSum;
-    private javax.swing.JTextField textFieldSum1;
-    private javax.swing.JTextField textFieldSum2;
-    private javax.swing.JTextField textFieldSum3;
     private javax.swing.JTextField textFieldSumPlan;
+    private javax.swing.JTextField textFieldTotal;
+    private javax.swing.JTextField textField_income;
     // End of variables declaration//GEN-END:variables
 }

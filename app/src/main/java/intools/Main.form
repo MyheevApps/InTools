@@ -418,6 +418,7 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="investedKeyPressed"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="investedKeyReleased"/>
                   </Events>
                 </Component>
@@ -432,6 +433,9 @@
                       </Border>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dividendKeyPressed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="cost">
                   <Properties>
@@ -445,6 +449,7 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="costKeyPressed"/>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="costKeyReleased"/>
                   </Events>
                 </Component>
@@ -677,6 +682,9 @@
                           <Dimension value="[66, 16]"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldDividendKeyPressed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="textFieldEndDate">
                       <Properties>
@@ -798,7 +806,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" pref="287" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="283" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -831,7 +839,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="termSpinner" max="32767" attributes="0"/>
                               <Component id="textFieldSum" max="32767" attributes="0"/>
-                              <Component id="percentSpinner" max="32767" attributes="0"/>
+                              <Component id="percentSpinner" pref="254" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -903,8 +911,8 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="&#x420;&#x430;&#x441;&#x441;&#x447;&#x438;&#x442;&#x430;&#x442;&#x44c;"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="4" left="8" right="8" top="4"/>
                       </Border>
                     </Property>
                   </Properties>
@@ -929,6 +937,9 @@
                       <Dimension value="[64, 22]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldSumKeyPressed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JSpinner" name="termSpinner">
                   <Properties>
@@ -1016,9 +1027,9 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="0">
                         <Column editable="true" title="&#x413;&#x43e;&#x434;" type="java.lang.Integer"/>
-                        <Column editable="true" title="&#x412;&#x43b;&#x43e;&#x436;&#x438;&#x43b;" type="java.lang.Double"/>
-                        <Column editable="true" title="&#x41f;&#x440;&#x43e;&#x446;&#x435;&#x43d;&#x442;&#x44b;" type="java.lang.Double"/>
-                        <Column editable="true" title="&#x412;&#x441;&#x435;&#x433;&#x43e;" type="java.lang.Double"/>
+                        <Column editable="true" title="&#x412;&#x43b;&#x43e;&#x436;&#x438;&#x43b;" type="java.lang.Integer"/>
+                        <Column editable="true" title="&#x41f;&#x440;&#x43e;&#x446;&#x435;&#x43d;&#x442;&#x44b;" type="java.lang.Integer"/>
+                        <Column editable="true" title="&#x412;&#x441;&#x435;&#x433;&#x43e;" type="java.lang.Integer"/>
                       </Table>
                     </Property>
                   </Properties>
@@ -1041,17 +1052,21 @@
                               <Group type="102" attributes="0">
                                   <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                                  <Component id="textFieldSum1" pref="253" max="32767" attributes="0"/>
+                                  <Component id="textFieldTotal" pref="253" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                                  <Component id="textFieldSum3" pref="253" max="32767" attributes="0"/>
+                                  <Component id="textFieldPercent" pref="253" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                                  <Component id="textFieldSum2" pref="253" max="32767" attributes="0"/>
+                                  <Component id="textField_income" pref="253" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnAddCurrentResult" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1064,19 +1079,21 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textFieldSum2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textField_income" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textFieldSum3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textFieldPercent" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textFieldSum1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textFieldTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnAddCurrentResult" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1124,7 +1141,7 @@
                     <Property name="text" type="java.lang.String" value="&#x412;&#x441;&#x435;&#x433;&#x43e;:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="textFieldSum1">
+                <Component class="javax.swing.JTextField" name="textField_income">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="13" style="0"/>
@@ -1141,8 +1158,11 @@
                       <Dimension value="[64, 22]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textField_incomeKeyPressed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="textFieldSum2">
+                <Component class="javax.swing.JTextField" name="textFieldPercent">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="13" style="0"/>
@@ -1159,8 +1179,11 @@
                       <Dimension value="[64, 22]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldPercentKeyPressed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="textFieldSum3">
+                <Component class="javax.swing.JTextField" name="textFieldTotal">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="13" style="0"/>
@@ -1177,6 +1200,25 @@
                       <Dimension value="[64, 22]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldTotalKeyPressed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnAddCurrentResult">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="13" style="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="&#x420;&#x430;&#x441;&#x441;&#x447;&#x438;&#x442;&#x430;&#x442;&#x44c;"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                        <EmptyBorder bottom="4" left="8" right="8" top="4"/>
+                      </Border>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCurrentResultActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1400,6 +1442,9 @@
                     <Component class="javax.swing.JTextField" name="textFieldCompanyPlan">
                     </Component>
                     <Component class="javax.swing.JTextField" name="textFieldSumPlan">
+                      <Events>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldSumPlanKeyPressed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
