@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import models.CurrentData;
 import models.Dividend;
 import models.Plan;
 import utils.Serialization;
@@ -193,6 +194,19 @@ public class Main extends javax.swing.JFrame {
         }
         
         Serialization.saveToFile(data, "dvdnd.txt");
+    }
+    
+    private void saveStateCurrentData() {
+        List<CurrentData> data = new ArrayList<>();
+        
+        for (int i = 0; i < tableDividends.getRowCount(); i++) {
+            data.add(new CurrentData(tableActualStory.getValueAt(i, 0).toString(),
+                    tableActualStory.getValueAt(i, 1).toString(), 
+                    tableActualStory.getValueAt(i, 2).toString(), 
+                    tableActualStory.getValueAt(i, 3).toString()));
+        }
+        
+        Serialization.saveToFile(data, "actual_data.txt");
     }
     
     private boolean deleteRowTable(JTable table) {
@@ -915,7 +929,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         btnAddCurrentResult.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        btnAddCurrentResult.setText("Рассчитать");
+        btnAddCurrentResult.setText("Добавить");
         btnAddCurrentResult.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
         btnAddCurrentResult.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1089,6 +1103,11 @@ public class Main extends javax.swing.JFrame {
 
         btnEditPlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnEditPlan.setText("Изменить");
+        btnEditPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditPlanActionPerformed(evt);
+            }
+        });
 
         btnDeletePlan.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         btnDeletePlan.setText("Удалить");
@@ -1273,11 +1292,14 @@ public class Main extends javax.swing.JFrame {
     private void btnAddCurrentResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCurrentResultActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableActualStory.getModel();
         int size = tableActualStory.getRowCount();
+        int year = size;
  
-        model.addRow(new Object[]{++size, 
+        model.addRow(new Object[]{++year, 
             Integer.valueOf(textField_income.getText()), 
             Integer.valueOf(textFieldPercent.getText()),
             Integer.valueOf(textFieldTotal.getText())});
+        
+        saveStateCurrentData();
     }//GEN-LAST:event_btnAddCurrentResultActionPerformed
 
     private void textField_incomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textField_incomeKeyPressed
@@ -1315,6 +1337,21 @@ public class Main extends javax.swing.JFrame {
     private void textFieldSumPlanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSumPlanKeyPressed
         checkInput(evt, textFieldSumPlan);
     }//GEN-LAST:event_textFieldSumPlanKeyPressed
+
+    private void btnEditPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPlanActionPerformed
+        int i = tablePlan.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) tablePlan.getModel();
+        
+        if (i >= 0) {
+            model.setValueAt(textFieldDateBuy.getText().toString(), i, 0);
+            model.setValueAt(textFieldSector.getText().toString(), i, 1);
+            model.setValueAt(textFieldCompanyPlan.getText().toString(), i, 2);
+            model.setValueAt(textFieldSumPlan.getText().toString(), i, 3);
+            saveStateDividendTable();
+        } else {
+            JOptionPane.showMessageDialog(this,"Выберите элемент таблицы для изменения.");
+        }
+    }//GEN-LAST:event_btnEditPlanActionPerformed
 
     /**
      * @param args the command line arguments
